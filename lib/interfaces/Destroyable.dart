@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-
 class Destroyable{
+  int _healthPoints;
+  int score;
 
+  int destroy(){}
 }
