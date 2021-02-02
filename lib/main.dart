@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sea_rider/pages/MainScreen.dart';
+import 'package:sea_rider/pages/RootScreen.dart';
 import 'package:sea_rider/providers/GameProvider.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => GameProvider()),
       ],
-      child: MainScreen(),
+      child: RootScreen(),
     );
   }
 }
