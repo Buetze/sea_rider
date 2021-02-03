@@ -1,23 +1,58 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sea_rider/logic/Game.dart';
 
 class GameProvider with ChangeNotifier{
 
-  var _canvasCtx;
-  var _game;
+  Game _game;
 
-  double _x = 50;
-  double _y = 50;
+  Timer _timer;
+
+  GameProvider(){
+  _timer = _createTimer();
+  _game = new Game();
+}
 
   initPreferences() {
+
   }
 
-  setCanvasCtx(ctx){
-    this._canvasCtx = ctx;
+  tab(){
+    _game.tab();
+    notifyListeners();
   }
 
-  get game => _game;
-  get x => x;
-  get y => y;
+  get x => _game.x;
+  get y => _game.y;
 
+
+
+  // Timer
+  @override
+  void dispose() {
+    this._cancelTimers();
+    super.dispose();
+  }
+
+  _cancelTimers(){
+    this._timer.cancel();
+  }
+
+  Timer _createTimer(){
+    return Timer.periodic (Duration(milliseconds: 50), (Timer t) {
+      setThisState();
+      notifyListeners();
+    });
+  }
+
+  setThisState(){
+
+    this._game.x += 5;
+    if(this._game.x > 300){
+      this._game.x = 0;
+    }
+
+  }
 }

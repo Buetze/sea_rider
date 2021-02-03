@@ -1,29 +1,41 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:developer';
 
-class Game{
+import 'package:flutter/material.dart';
+import 'package:sea_rider/models/Coord.dart';
+
+import 'Player.dart';
+
+class Game with ChangeNotifier{
 
   bool isPaused = false;
   bool _run = true;
-  CustomPainter _drawContext;
+  Player player;
+  int velocity = 10;
+
   double x = 50;
   double y = 50;
 
-  tab(){
-    _gameLoop();
+  Game(){
+    player = new Player(new Coord(50,50));
   }
 
+  tab(){
+    togglePause();
+  }
+
+  togglePause(){
+    isPaused = !isPaused;
+  }
+
+
   _gameLoop(){
-
-    int i = 0;
-
-    while (i < 10){
-      this.x += 20;
-    }
 
   }
 
   _garbageCollector(){}
 
   _collisionDetection(){}
+
 
 }
