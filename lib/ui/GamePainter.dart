@@ -1,11 +1,9 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 
-import 'package:sea_rider/providers/GameProvider.dart';
+import 'package:sea_rider/models/Coord.dart';
+
 
 
 class GamePainter extends CustomPainter{
@@ -19,15 +17,15 @@ class GamePainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size) {
 
-    final pointMode = ui.PointMode.points;
-    var points = [
-      Offset(_gameProvider.x,_gameProvider.y),
-    ];
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-    canvas.drawPoints(pointMode, points, paint);
+    Coord playerPos = _gameProvider.game.playerPosition;
+    Coord obstPos = _gameProvider.game.obstaclePosition;
+
+    var paint1 = Paint()
+      ..color = Color(0xff63aa65)
+      ..style = PaintingStyle.fill;
+
+      canvas.drawCircle(Offset(playerPos.x,playerPos.y), 10, paint1);
+      canvas.drawCircle(Offset(obstPos.x,obstPos.y), 10, paint1);
   }
 
   @override

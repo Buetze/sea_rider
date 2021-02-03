@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sea_rider/logic/Game.dart';
@@ -24,10 +23,7 @@ class GameProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  get x => _game.x;
-  get y => _game.y;
-
-
+  get game => _game;
 
   // Timer
   @override
@@ -49,10 +45,7 @@ class GameProvider with ChangeNotifier{
 
   setThisState(){
 
-    this._game.x += 5;
-    if(this._game.x > 300){
-      this._game.x = 0;
-    }
+   this._game.gameLoop();
 
   }
 }

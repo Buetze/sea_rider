@@ -1,23 +1,31 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sea_rider/models/Coord.dart';
+import 'package:sea_rider/models/Obstacle.dart';
 
 import 'Player.dart';
+import 'UserInput.dart';
+
 
 class Game with ChangeNotifier{
 
   bool isPaused = false;
   bool _run = true;
-  Player player;
   int velocity = 10;
 
-  double x = 50;
-  double y = 50;
+  Player _player;
+  Obstacle _obstacle;
+
+  UserInput _userInput;
+
+  Coord get playerPosition => _player.position;
+  Coord get obstaclePosition => _obstacle.position;
+
 
   Game(){
-    player = new Player(new Coord(50,50));
+    _player = new Player(new Coord(150,230));
+    _obstacle = new Obstacle(new Coord(140, 0));
+    _userInput = new UserInput();
   }
 
   tab(){
@@ -28,9 +36,11 @@ class Game with ChangeNotifier{
     isPaused = !isPaused;
   }
 
+  gameLoop(){
+    _obstacle.position.y += 1 * velocity;
 
-  _gameLoop(){
-
+    _player.position.x -= _userInput.ax;
+    velocity += (_userInput.az / 2).round();
   }
 
   _garbageCollector(){}

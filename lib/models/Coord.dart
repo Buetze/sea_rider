@@ -1,5 +1,5 @@
 class Coord{
-  int x, y;
+  double x, y;
 
-  Coord(this.x, this.y){}
+  Coord(this.x, this.y);
 }
