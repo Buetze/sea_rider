@@ -18,7 +18,7 @@ class _PlayScreenState extends State<PlayScreen> {
       appBar: AppBar( ),
       body: Center(
         child: GestureDetector(
-          onTap: () => { _gameProvider.tab() },
+          onTap: () => { _gameProvider.game.togglePause() },
           child: SizedBox(
             width: 300,
             height: 300,

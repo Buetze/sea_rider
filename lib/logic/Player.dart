@@ -4,12 +4,13 @@ import 'package:sea_rider/interfaces/GameEntity.dart';
 import 'package:sea_rider/models/Coord.dart';
 
 class Player extends GameEntity{
-  Offset offset;
 
-  Offset force;
+  int hitPoints = 3;
 
-  bool active;
+  Player(Coord coord, double size) : super(coord, size);
 
-  Player(Coord coord) : super(coord);
+  hit(int power){
+    this.hitPoints - power;
+  }
 
 }

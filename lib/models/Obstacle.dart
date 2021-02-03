@@ -7,8 +7,9 @@ class Obstacle extends GameEntity implements Collisionable, Destroyable{
   @override
 
   int score;
+  int power = 2;
 
-  Obstacle(Coord coord) : super(coord);
+  Obstacle(Coord coord, double size) : super(coord, size);
 
   @override
   void checkCollision() {

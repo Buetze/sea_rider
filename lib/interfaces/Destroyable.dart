@@ -3,4 +3,5 @@ class Destroyable{
   int score;
 
   int destroy(){}
+
 }
