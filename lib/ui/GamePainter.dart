@@ -59,21 +59,37 @@ class GamePainter extends CustomPainter{
       canvas.drawCircle(Offset(pos.x,pos.y), size, collectable);
     });
 
+    // Prints Game Over
+    if(_gameProvider.game.gameOver){
+      var txt = _createTextElement(size, 30.toDouble(), 'Game Over');
+      final offset = Offset(width / 2 -(txt.width / 2),
+          height / 2 -(txt.height));
+      txt.paint(canvas, offset);
+    }
+
     // Prints Paused Text
     if(_gameProvider.game.isPaused){
-      var pauseTxt = _pausedText(size);
+      var pauseTxt = _createTextElement(size, 30.toDouble(), 'Game Paused');
       final offset = Offset(width / 2 -(pauseTxt.width / 2),
           height / 2 -(pauseTxt.height));
       pauseTxt.paint(canvas, offset);
     }
 
     //Prints Score
-    var scoreTxt = _scoreText(size, _gameProvider.game.score);
+    var scoreTxt = _createTextElement(size, 20.toDouble(), 'score',
+        addParam : _gameProvider.game.scoreAsTxt);
     final scoreOffset = Offset(0, 0);
     scoreTxt.paint(canvas, scoreOffset);
 
+    //Prints speed
+    var speedTxt = _createTextElement(size, 20.toDouble(), 'speed',
+        addParam : _gameProvider.game.speed.toString());
+    final speedOffset = Offset(0, 0+ scoreTxt.height);
+    speedTxt.paint(canvas, speedOffset);
+
     //Prints hp
-    var hpTxt = _healthText(size, _gameProvider.game.playerHp);
+    var hpTxt = _createTextElement(size, 20.toDouble(), 'Health',
+        addParam : _gameProvider.game.playerHp.toString());
     final hpOffset = Offset(width -(hpTxt.width), 0);
     hpTxt.paint(canvas, hpOffset);
   }
@@ -132,6 +148,69 @@ class GamePainter extends CustomPainter{
     );
     final textSpan = TextSpan(
       text: 'Health ${hp}',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
+  }
+
+  TextPainter _speedTxt(size, speed){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+    );
+    final textSpan = TextSpan(
+      text: 'Speed ${speed}',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
+  }
+
+  TextPainter _gameOver(size, score){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+    );
+    final textSpan = TextSpan(
+      text: 'Game Over',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
+  }
+
+  _createTextElement(size, double fontSize, text, {String addParam = "", } ){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: fontSize,
+    );
+    final textSpan = TextSpan(
+      text: '${text} ${addParam}',
       style: textStyle,
     );
     final textPainter = TextPainter(

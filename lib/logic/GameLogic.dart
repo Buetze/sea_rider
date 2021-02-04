@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:sea_rider/interfaces/GameEntity.dart';
 import 'package:sea_rider/models/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
@@ -22,7 +21,7 @@ class GameLogic{
           (rng.nextInt(_game.width.toInt()) + 10).toDouble(),
           (0 - rng.nextInt(300) +100).toDouble()
       );
-      _rtnList.add(new Collectable(coord, size, size.toInt()));
+      _rtnList.add(new Collectable(coord, size, size));
     }
     return _rtnList;
   }
@@ -47,5 +46,15 @@ class GameLogic{
 
     var distance = sqrt((x * x) + (y * y));
     return distance < e1.size + e2.size;
+  }
+
+  double newRandX(){
+    var rng = new Random();
+    return (rng.nextInt(_game.width.toInt()) + 10).toDouble();
+  }
+
+  double newRandSize(){
+    var rng = new Random();
+    return (rng.nextInt(25) + 5).toDouble();
   }
 }

@@ -8,6 +8,8 @@ class GameProvider with ChangeNotifier{
   Game _game;
   Timer _timer;
 
+  get game => _game;
+
   GameProvider(){
     _game = new Game();
   }
@@ -20,6 +22,7 @@ class GameProvider with ChangeNotifier{
   }
 
   startOrResumeGame(){
+    if (_game.gameOver) resetGame();
     // check if game runs and toggle pause if so
     _game.run? _game.togglePause() :
     // else start the game
@@ -31,7 +34,17 @@ class GameProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  get game => _game;
+  resetGame(){
+    _game.init();
+    if (_timer == null){
+      _timer.cancel();
+      _timer = _createTimer();
+    }
+    _game.run = true;
+    _game.gameOver = false;
+    _game.isPaused = true;
+    notifyListeners();
+  }
 
   setDisplaySize(width, height){
     _game.width = width;
@@ -50,14 +63,14 @@ class GameProvider with ChangeNotifier{
   }
 
   Timer _createTimer(){
-    return Timer.periodic (Duration(milliseconds: 50), (Timer t) {
-      setThisState();
+    return Timer.periodic (Duration(milliseconds: 25), (Timer t) {
+      setGameState();
       notifyListeners();
     });
   }
 
-  setThisState(){
-
+  setGameState(){
    _game.gameLoop();
   }
+
 }

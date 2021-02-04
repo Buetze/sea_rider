@@ -40,9 +40,9 @@ List<Widget> actions(BuildContext context) {
   var _gameProvider = Provider.of<GameProvider>(context);
   return [
     IconButton(
-        icon: Icon(Icons.edit_rounded),
+        icon: Icon(Icons.replay),
         onPressed: () {
-          _gameProvider.startOrResumeGame();
+          _gameProvider.resetGame();
         }
     ),
   ];

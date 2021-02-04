@@ -10,7 +10,7 @@ class Player extends GameEntity{
   Player(Coord coord, double size) : super(coord, size);
 
   hit(int power){
-    this.hitPoints - power;
+    hitPoints -= power;
   }
 
 }
