@@ -26,7 +26,6 @@ class _GameFieldState extends State<GameField>
     var _gameProvider = Provider.of<GameProvider>(context);
     return Container(
         child: CustomPaint(
-        size: Size(300, 300),
           painter: GamePainter(_gameProvider),
       )
     );

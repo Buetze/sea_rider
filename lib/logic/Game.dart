@@ -43,7 +43,7 @@ class Game with ChangeNotifier{
 
   Game(){
 
-    _gameLogic = new GameLogic();
+    _gameLogic = new GameLogic(this);
 
 
     _userInput = new UserInput();
@@ -58,7 +58,7 @@ class Game with ChangeNotifier{
   }
 
   init(){
-    _player = new Player(new Coord(width / 2,height -100), 30);
+    _player = new Player(new Coord(width/ 2,height - height* 0.2 ), 30);
 
     _obstacles = _gameLogic.returnRandomObstacles(_maxObstacles);
     _collectables = _gameLogic.returnRandomCollectables(_maxCollectables);
@@ -72,21 +72,21 @@ class Game with ChangeNotifier{
     // Obstacles next position
     _obstacles.forEach((element) {
       element.pos.y += 1 * velocity;
-      if(element.pos.y > 400){
-        element.pos.y = -400;
+      if(element.pos.y > height){
+        element.pos.y =  (0 - 300).toDouble();
       }
     });
 
     // Collectable next position
     _collectables.forEach((element) {
       element.pos.y += 1 * velocity;
-      if(element.pos.y > 400){
-        element.pos.y = -400;
+      if(element.pos.y > height){
+        element.pos.y = (0 - 300).toDouble();
       }
     });
 
     //Apply Userinput and Velocity
-    if(_player.pos.x > 0 && _player.pos.x < 400){
+    if(_player.pos.x > 0 && _player.pos.x < width){
       _player.pos.x -= _userInput.ax;
     }
     if(velocity < 10){

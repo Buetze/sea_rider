@@ -5,7 +5,13 @@ import 'package:sea_rider/models/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
 import 'package:sea_rider/models/Obstacle.dart';
 
+import 'Game.dart';
+
 class GameLogic{
+
+  Game _game;
+
+  GameLogic(this._game);
 
   List<Collectable> returnRandomCollectables(int amount){
     var rng = new Random();
@@ -13,8 +19,8 @@ class GameLogic{
     for (var i = 0; i < amount; i++){
       var size = (rng.nextInt(20) + 10).toDouble();
       var coord = new Coord(
-          (rng.nextInt(300) + 10).toDouble(),
-          (0 - rng.nextInt(400)+100).toDouble()
+          (rng.nextInt(_game.width.toInt()) + 10).toDouble(),
+          (0 - rng.nextInt(300) +100).toDouble()
       );
       _rtnList.add(new Collectable(coord, size, size.toInt()));
     }
@@ -25,10 +31,10 @@ class GameLogic{
     var rng = new Random();
     List<Obstacle> _rtnList = new List<Obstacle>();
     for (var i = 0; i < amount; i++){
-      var size = (rng.nextInt(20) + 10).toDouble();
+      var size = (rng.nextInt(25) + 5).toDouble();
       var coord = new Coord(
-          (rng.nextInt(300) + 10).toDouble(),
-          (0 - rng.nextInt(400) + 100).toDouble()
+          (rng.nextInt(_game.width.toInt()) + 10).toDouble(),
+          (0 - rng.nextInt(300) + 100).toDouble()
       );
       _rtnList.add(new Obstacle(coord, size));
     }

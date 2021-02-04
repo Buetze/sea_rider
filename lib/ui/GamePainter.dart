@@ -30,6 +30,9 @@ class GamePainter extends CustomPainter{
     Coord playerPos = player.pos;
     double playerSize = player.size;
 
+    var width = _gameProvider.game.width;
+    var height = _gameProvider.game.height;
+
     var paint1 = Paint()
       ..color = Color(0xff63aa65)
       ..style = PaintingStyle.fill;
@@ -38,8 +41,10 @@ class GamePainter extends CustomPainter{
       ..color = Color(0xff35ff63)
       ..style = PaintingStyle.fill;
 
+    //Prints Player
       canvas.drawCircle(Offset(playerPos.x,playerPos.y), playerSize, paint1);
 
+    //prints obstacles
       obstacles.forEach((element) {
         Coord obstPos = element.pos;
         double obstSize = element.size;
@@ -54,6 +59,27 @@ class GamePainter extends CustomPainter{
       canvas.drawCircle(Offset(pos.x,pos.y), size, collectable);
     });
 
+    // Prints Paused Text
+    if(_gameProvider.game.isPaused){
+      final textStyle = TextStyle(
+        color: Colors.black,
+        fontSize: 30,
+      );
+      final textSpan = TextSpan(
+        text: 'Game Paused',
+        style: textStyle,
+      );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout(
+        minWidth: 0,
+        maxWidth: size.width,
+      );
+      final offset = Offset(width / 2, height / 2);
+      textPainter.paint(canvas, offset);
+    }
 
   }
 

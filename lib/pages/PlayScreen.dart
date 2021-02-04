@@ -24,7 +24,7 @@ class _PlayScreenState extends State<PlayScreen> {
       ),
       body: Center(
         child: GestureDetector(
-          onTap: () => { _gameProvider.game.togglePause() },
+          onTap: () => { _gameProvider.startOrResumeGame() },
           child: SizedBox(
             width: width,
             height: height,
@@ -42,7 +42,7 @@ List<Widget> actions(BuildContext context) {
     IconButton(
         icon: Icon(Icons.edit_rounded),
         onPressed: () {
-          _gameProvider.startGame();
+          _gameProvider.startOrResumeGame();
         }
     ),
   ];
