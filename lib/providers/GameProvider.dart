@@ -6,17 +6,14 @@ import 'package:sea_rider/logic/Game.dart';
 class GameProvider with ChangeNotifier{
 
   Game _game;
-
   Timer _timer;
 
   GameProvider(){
   _timer = _createTimer();
   _game = new Game();
-}
-
-  initPreferences() {
-
   }
+
+  initPreferences() {  }
 
   tab(){
     _game.tab();
@@ -44,8 +41,6 @@ class GameProvider with ChangeNotifier{
   }
 
   setThisState(){
-
    this._game.gameLoop();
-
   }
 }

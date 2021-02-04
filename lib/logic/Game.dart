@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sea_rider/models/Coord.dart';
 import 'package:sea_rider/models/Obstacle.dart';
 
+import 'package:flutter/services.dart';
+
 import 'dart:math';
 
 import 'Player.dart';
@@ -48,6 +50,7 @@ class Game with ChangeNotifier{
 
   gameLoop(){
 
+    // stop tick if game is paused
     if(isPaused){ return; }
 
     // Obstacles next position
@@ -59,12 +62,13 @@ class Game with ChangeNotifier{
     });
 
 
-    //Userinput and Velocity
+    //Apply Userinput and Velocity
     _player.pos.x -= _userInput.ax;
     if(velocity < 10){
       velocity += (_userInput.az / 2).round();
     }
 
+    // Collision detection
     _collisionDetection();
 
   }
@@ -85,7 +89,9 @@ class Game with ChangeNotifier{
         // b.remove = true;
         a.hit(b.power);
         a.pos.x += 10;
+        HapticFeedback.lightImpact();
         if(a.hitPoints < 0){
+
           // a.remove = true;
           // this.score += a.score;
         }
