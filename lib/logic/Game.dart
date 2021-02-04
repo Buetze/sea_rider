@@ -36,6 +36,7 @@ class Game with ChangeNotifier{
   Coord get obstaclePosition => _obstacle.pos;
 
   Player get player => _player;
+  int get playerHp => _player.hitPoints;
   Obstacle get obstacle => _obstacle;
   List<Obstacle> get obstacles => _obstacles;
   List<Collectable> get collectables => _collectables;

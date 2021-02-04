@@ -61,33 +61,89 @@ class GamePainter extends CustomPainter{
 
     // Prints Paused Text
     if(_gameProvider.game.isPaused){
-      final textStyle = TextStyle(
-        color: Colors.black,
-        fontSize: 30,
-      );
-      final textSpan = TextSpan(
-        text: 'Game Paused',
-        style: textStyle,
-      );
-      final textPainter = TextPainter(
-        text: textSpan,
-        textDirection: TextDirection.ltr,
-          textAlign: TextAlign.center
-      );
-      textPainter.layout(
-        minWidth: 0,
-        maxWidth: size.width,
-      );
-      final offset = Offset(width / 2 -(textPainter.width / 2),
-          height / 2 -(textPainter.height));
-      textPainter.paint(canvas, offset);
+      var pauseTxt = _pausedText(size);
+      final offset = Offset(width / 2 -(pauseTxt.width / 2),
+          height / 2 -(pauseTxt.height));
+      pauseTxt.paint(canvas, offset);
     }
 
+    //Prints Score
+    var scoreTxt = _scoreText(size, _gameProvider.game.score);
+    final scoreOffset = Offset(0, 0);
+    scoreTxt.paint(canvas, scoreOffset);
+
+    //Prints hp
+    var hpTxt = _healthText(size, _gameProvider.game.playerHp);
+    final hpOffset = Offset(width -(hpTxt.width), 0);
+    hpTxt.paint(canvas, hpOffset);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+  }
+
+  TextPainter _pausedText(size){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 30,
+    );
+    final textSpan = TextSpan(
+      text: 'Game Paused',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
+  }
+
+  TextPainter _scoreText(size, score){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+    );
+    final textSpan = TextSpan(
+      text: 'Score ${score}',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
+  }
+
+  TextPainter _healthText(size, hp){
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+    );
+    final textSpan = TextSpan(
+      text: 'Health ${hp}',
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    return textPainter;
   }
 
 }

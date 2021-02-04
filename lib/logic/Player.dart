@@ -5,7 +5,7 @@ import 'package:sea_rider/models/Coord.dart';
 
 class Player extends GameEntity{
 
-  int hitPoints = 3;
+  int hitPoints = 100;
 
   Player(Coord coord, double size) : super(coord, size);
 
