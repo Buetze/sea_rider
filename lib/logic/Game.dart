@@ -90,7 +90,7 @@ class Game with ChangeNotifier{
       _player.pos.x -= _userInput.ax;
     }
     if(velocity < 10){
-      velocity += (_userInput.az / 2).round();
+      velocity += (_userInput.ay / 2).round();
     }
 
 

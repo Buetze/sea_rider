@@ -72,12 +72,14 @@ class GamePainter extends CustomPainter{
       final textPainter = TextPainter(
         text: textSpan,
         textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center
       );
       textPainter.layout(
         minWidth: 0,
         maxWidth: size.width,
       );
-      final offset = Offset(width / 2, height / 2);
+      final offset = Offset(width / 2 -(textPainter.width / 2),
+          height / 2 -(textPainter.height));
       textPainter.paint(canvas, offset);
     }
 
