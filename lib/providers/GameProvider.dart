@@ -9,18 +9,34 @@ class GameProvider with ChangeNotifier{
   Timer _timer;
 
   GameProvider(){
-  _timer = _createTimer();
-  _game = new Game();
+    _game = new Game();
   }
 
   initPreferences() {  }
 
   tab(){
-    _game.tab();
+    _game.togglePause();
+    notifyListeners();
+  }
+
+  startOrResumeGame(){
+    // check if game runs and toggle pause if so
+    _game.run? _game.togglePause() :
+    // else start the game
+    _game.init();
+    if (_timer == null){
+      _timer = _createTimer();
+    }
+    _game.run = true;
     notifyListeners();
   }
 
   get game => _game;
+
+  setDisplaySize(width, height){
+    _game.width = width;
+    _game.height = height;
+  }
 
   // Timer
   @override
@@ -41,6 +57,7 @@ class GameProvider with ChangeNotifier{
   }
 
   setThisState(){
-   this._game.gameLoop();
+
+   _game.gameLoop();
   }
 }

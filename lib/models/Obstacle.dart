@@ -8,6 +8,7 @@ class Obstacle extends GameEntity implements Destroyable{
 
   int score;
   int power = 2;
+  bool remove = false;
 
   Obstacle(Coord coord, double size) : super(coord, size);
   

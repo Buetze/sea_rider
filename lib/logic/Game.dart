@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:sea_rider/logic/GameLogic.dart';
+import 'package:sea_rider/models/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
 import 'package:sea_rider/models/Obstacle.dart';
 
@@ -13,13 +15,20 @@ import 'UserInput.dart';
 
 class Game with ChangeNotifier{
 
+  GameLogic _gameLogic;
   bool isPaused = false;
-  bool _run = true;
+  bool run = false;
   int velocity = 10;
+  int score = 0;
+  int _maxObstacles = 5;
+  int _maxCollectables = 3;
+  double width = 0;
+  double height = 0;
 
   Player _player;
   Obstacle _obstacle;
   List<Obstacle> _obstacles;
+  List<Collectable> _collectables;
 
   UserInput _userInput;
 
@@ -29,23 +38,30 @@ class Game with ChangeNotifier{
   Player get player => _player;
   Obstacle get obstacle => _obstacle;
   List<Obstacle> get obstacles => _obstacles;
-
+  List<Collectable> get collectables => _collectables;
 
 
   Game(){
-    _player = new Player(new Coord(150,230), 30);
-    _obstacle = new Obstacle(new Coord(140, 0), 40);
+
+    _gameLogic = new GameLogic();
+
+
     _userInput = new UserInput();
     _obstacles = new List<Obstacle>();
-    _obstacles.add(_obstacle);
-  }
+    _collectables = new List<Collectable>();
 
-  tab(){
-    togglePause();
+
   }
 
   togglePause(){
     isPaused = !isPaused;
+  }
+
+  init(){
+    _player = new Player(new Coord(width / 2,height -100), 30);
+
+    _obstacles = _gameLogic.returnRandomObstacles(_maxObstacles);
+    _collectables = _gameLogic.returnRandomCollectables(_maxCollectables);
   }
 
   gameLoop(){
@@ -57,47 +73,75 @@ class Game with ChangeNotifier{
     _obstacles.forEach((element) {
       element.pos.y += 1 * velocity;
       if(element.pos.y > 400){
-        element.pos.y = 0;
+        element.pos.y = -400;
       }
     });
 
+    // Collectable next position
+    _collectables.forEach((element) {
+      element.pos.y += 1 * velocity;
+      if(element.pos.y > 400){
+        element.pos.y = -400;
+      }
+    });
 
     //Apply Userinput and Velocity
-    _player.pos.x -= _userInput.ax;
+    if(_player.pos.x > 0 && _player.pos.x < 400){
+      _player.pos.x -= _userInput.ax;
+    }
     if(velocity < 10){
       velocity += (_userInput.az / 2).round();
     }
 
+
     // Collision detection
     _collisionDetection();
 
+    // Removes unussed elements
+    _garbageCollector();
+
+    // repopulates the gamefield
+    _populate();
+
   }
 
-  _garbageCollector(){}
+  _garbageCollector(){
+
+    //removes unused enteties
+    _obstacles.removeWhere( (element) => element.remove);
+    _collectables.removeWhere( (element) => element.remove);
+  }
 
   _collisionDetection(){
 
-    _obstacles.forEach((b) {
-      var a = _player;
-
-      var x = a.pos.x - b.pos.x;
-      var y = a.pos.y - b.pos.y;
-
-      var distance = sqrt((x * x) + (y * y));
-
-      if(distance < a.size + b.size){
-        // b.remove = true;
-        a.hit(b.power);
-        a.pos.x += 10;
+    // Obstacles
+    _obstacles.forEach((element) {
+      if(_gameLogic.collisionDetection(player, element)){
+        element.remove = true;
         HapticFeedback.lightImpact();
-        if(a.hitPoints < 0){
 
-          // a.remove = true;
-          // this.score += a.score;
-        }
+      };
+    });
+
+    // Collectable
+    _collectables.forEach((element) {
+      if(_gameLogic.collisionDetection(_player, element)){
+        element.remove = true;
+        HapticFeedback.lightImpact();
+
       };
     });
   }
 
+  _populate(){
+
+    //  Number of obstacles left on the field
+    var oNum = _maxObstacles -_obstacles.length;
+    if ( oNum >= 0){ _obstacles.addAll(_gameLogic.returnRandomObstacles(oNum)); }
+
+    //  Number of collectable left on the field
+    var cNum = _maxCollectables -_collectables.length;
+    if ( cNum >= 0){ _collectables.addAll(_gameLogic.returnRandomCollectables(cNum)); }
+  }
 
 }
