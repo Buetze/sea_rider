@@ -21,6 +21,7 @@ class _GameFieldState extends State<GameField>
   Widget build(BuildContext context) {
     var _gameProvider = Provider.of<GameProvider>(context);
     return Container(
+        color: Colors.lightBlue[100],
         child: CustomPaint(
           painter: GamePainter(_gameProvider),
       )

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sea_rider/logic/GameLogic.dart';
-import 'package:sea_rider/models/Collectable.dart';
+import 'package:sea_rider/Entities/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
-import 'package:sea_rider/models/Obstacle.dart';
+import 'package:sea_rider/Entities/Obstacle.dart';
 
 import 'package:flutter/services.dart';
 
-import 'Player.dart';
+import '../Entities/Player.dart';
 import 'UserInput.dart';
 
 
@@ -17,7 +17,10 @@ class Game with ChangeNotifier{
   bool gameOver = false;
   bool run = false;
   double velocity = 10;
-  double score = 0;
+  double _score = 0;
+  double _stagedScore = 0;
+  int _stage = 1;
+  int _stageUpdateScore = 10;
   int _maxObstacles = 5;
   int _maxCollectables = 3;
   int _maxVelocity = 20;
@@ -40,7 +43,11 @@ class Game with ChangeNotifier{
   List<Obstacle> get obstacles => _obstacles;
   List<Collectable> get collectables => _collectables;
   get speed => (velocity / 10).toStringAsFixed(2);
-  get scoreAsTxt => score.toStringAsFixed(2);
+  get scoreAsTxt => _score.toStringAsFixed(2);
+  int get stage => _stage;
+
+
+  get score => _score;
 
   Game(){
     _gameLogic = new GameLogic(this);
@@ -57,12 +64,16 @@ class Game with ChangeNotifier{
     _player = new Player(new Coord(width/ 2,height - height* 0.2 ), 30);
     _obstacles = _gameLogic.returnRandomObstacles(_maxObstacles);
     _collectables = _gameLogic.returnRandomCollectables(_maxCollectables);
+    _maxObstacles = 5;
   }
 
   gameLoop(){
 
     // stop tick if game is paused
     if(isPaused || gameOver){ return; }
+
+    // Gamestatus update
+    _update();
 
     // Move all Game entities
     _moveObj();
@@ -87,6 +98,23 @@ class Game with ChangeNotifier{
     _collectables.removeWhere( (element) => element.remove);
   }
 
+  setScore (double score) => {
+    _score += score,
+    _stagedScore += score
+  };
+
+  _update(){
+    _setStage();
+  }
+
+  _setStage(){
+    if (_stagedScore / _stageUpdateScore > 1){
+      _stage += 1;
+      _maxObstacles += 1;
+      _stagedScore -= _stageUpdateScore;
+    }
+  }
+
   _collisionDetection(){
 
     // Obstacles
@@ -106,7 +134,7 @@ class Game with ChangeNotifier{
       if(_gameLogic.collisionDetection(_player, element)){
         element.remove = true;
         HapticFeedback.lightImpact();
-        score += element.score * velocity / 10;
+        setScore(element.score * velocity / 10);
       };
     });
   }
@@ -138,13 +166,6 @@ class Game with ChangeNotifier{
         (velocity >= 10 || ay <0)){
       velocity -= (_userInput.ay / 10);
     }
-
-    // else if(velocity > _maxVelocity){
-    //   velocity --;
-    // }
-    // else if(velocity < 10){
-    //   velocity ++;
-    // }
   }
 
   _moveObj(){
@@ -152,7 +173,7 @@ class Game with ChangeNotifier{
     _obstacles.forEach((element) {
       element.pos.y += 1 * velocity;
       if(element.pos.y > height){
-        element.pos.y =  (0 - 300).toDouble();
+        element.pos.y =  _gameLogic.newRandY();
         element.pos.x = _gameLogic.newRandX();
         element.size = _gameLogic.newRandSize();
       }
@@ -162,7 +183,7 @@ class Game with ChangeNotifier{
     _collectables.forEach((element) {
       element.pos.y += 1 * velocity;
       if(element.pos.y > height){
-        element.pos.y = (0 - 300).toDouble();
+        element.pos.y = _gameLogic.newRandY();
         element.pos.x = _gameLogic.newRandX();
       }
     });

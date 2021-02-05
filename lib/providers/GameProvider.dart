@@ -62,7 +62,7 @@ class GameProvider with ChangeNotifier{
   }
 
   Timer _createTimer(){
-    return Timer.periodic (Duration(milliseconds: 50), (Timer t) {
+    return Timer.periodic (Duration(milliseconds: 35), (Timer t) {
       setGameState();
       notifyListeners();
     });

@@ -1,8 +1,8 @@
 import 'dart:math';
-import 'package:sea_rider/interfaces/GameEntity.dart';
-import 'package:sea_rider/models/Collectable.dart';
+import 'package:sea_rider/Entities/GameEntity.dart';
+import 'package:sea_rider/Entities/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
-import 'package:sea_rider/models/Obstacle.dart';
+import 'package:sea_rider/Entities/Obstacle.dart';
 
 import 'Game.dart';
 
@@ -53,6 +53,11 @@ class GameLogic{
   double newRandX(){
     var rng = new Random();
     return (rng.nextInt(_game.width.toInt()) + 10).toDouble();
+  }
+
+  double newRandY(){
+    var rng = new Random();
+    return (0 - (rng.nextInt(300) + 100)).toDouble();
   }
 
   double newRandSize(){

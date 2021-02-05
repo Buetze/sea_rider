@@ -1,5 +1,6 @@
-import 'package:sea_rider/interfaces/GameEntity.dart';
 import 'package:sea_rider/models/Coord.dart';
+
+import 'GameEntity.dart';
 
 class Collectable extends GameEntity{
   double score;

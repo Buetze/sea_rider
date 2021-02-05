@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sea_rider/logic/Player.dart';
-import 'package:sea_rider/models/Collectable.dart';
+import 'package:sea_rider/Entities/Player.dart';
+import 'package:sea_rider/Entities/Collectable.dart';
 import 'package:sea_rider/models/Coord.dart';
-import 'package:sea_rider/models/Obstacle.dart';
+import 'package:sea_rider/Entities/Obstacle.dart';
 
 
 
@@ -27,8 +27,12 @@ class GamePainter extends CustomPainter{
     var width = _gameProvider.game.width;
     var height = _gameProvider.game.height;
 
-    var paint1 = Paint()
-      ..color = Color(0xff63aa65)
+    var pObstacle = Paint()
+      ..color = Color(0xffFACC2E)
+      ..style = PaintingStyle.fill;
+
+    var paintPlayer = Paint()
+      ..color = Color(0xff424242)
       ..style = PaintingStyle.fill;
 
     var collectable = Paint()
@@ -36,14 +40,14 @@ class GamePainter extends CustomPainter{
       ..style = PaintingStyle.fill;
 
     //Prints Player
-      canvas.drawCircle(Offset(playerPos.x,playerPos.y), playerSize, paint1);
+      canvas.drawCircle(Offset(playerPos.x,playerPos.y), playerSize, paintPlayer);
 
     //prints obstacles
       obstacles.forEach((element) {
         Coord obstPos = element.pos;
         double obstSize = element.size;
 
-        canvas.drawCircle(Offset(obstPos.x,obstPos.y), obstSize, paint1);
+        canvas.drawCircle(Offset(obstPos.x,obstPos.y), obstSize, pObstacle);
       });
 
     collectables.forEach((element) {
@@ -86,6 +90,12 @@ class GamePainter extends CustomPainter{
         addParam : _gameProvider.game.playerHp.toString());
     final hpOffset = Offset(width -(hpTxt.width), 0);
     hpTxt.paint(canvas, hpOffset);
+
+    //Prints stage
+    var stageTxt = _createTextElement(size, 20.toDouble(), 'Stage',
+        addParam : _gameProvider.game.stage.toString());
+    final stageOffset = Offset(width -(stageTxt.width), 0 + stageTxt.height);
+    stageTxt.paint(canvas, stageOffset);
   }
 
   @override

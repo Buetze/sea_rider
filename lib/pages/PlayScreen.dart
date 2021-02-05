@@ -28,7 +28,9 @@ class _PlayScreenState extends State<PlayScreen> {
           child: SizedBox(
             width: width,
             height: height,
-            child: _gameProvider.game.run ? GameField() : Text ('Tab to start')
+            child: _gameProvider.game.run ?
+            GameField() :
+            Text ('Tab anywhere to start'),
           ),
         ),
       ),

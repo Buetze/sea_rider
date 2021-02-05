@@ -1,4 +1,4 @@
-import 'package:sea_rider/interfaces/GameEntity.dart';
+import 'package:sea_rider/Entities/GameEntity.dart';
 import 'package:sea_rider/models/Coord.dart';
 
 class Obstacle extends GameEntity {
