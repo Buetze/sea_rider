@@ -21,7 +21,9 @@ class GameLogic{
           (rng.nextInt(_game.width.toInt()) + 10).toDouble(),
           (0 - rng.nextInt(300) +100).toDouble()
       );
-      _rtnList.add(new Collectable(coord, size, size));
+      // sets the score, smaller brings more points
+      var score = 1 / size * 10;
+      _rtnList.add(new Collectable(coord, size, score));
     }
     return _rtnList;
   }

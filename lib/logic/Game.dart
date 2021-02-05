@@ -123,28 +123,28 @@ class Game with ChangeNotifier{
   }
 
   _handleUserInput(){
+    var x =  _player.pos.x;
+    var size = _player.size;
+    var ax = _userInput.ax;
+    var ay = _userInput.ay;
+
     //Apply Userinput and Velocity
-    if(_player.pos.x - _player.size > 0 &&
-        _player.pos.x + player.size < width){
-      _player.pos.x -= _userInput.ax*2;
-    }
-    // Else if statement to make sure input is still possible
-    else if (_player.pos.x + player.size >= width){
-      _player.pos.x = width - player.size - 3;
-    }else if(_player.pos.x - _player.size <= 0){
-      _player.pos.x = 0 + _player.size + 3;
+    if((x - size > 0 || ax < 0) &&
+        (x + size < width || ax > 0)){
+      _player.pos.x -= ax*2;
     }
 
-    if(velocity <= _maxVelocity && velocity >= 10){
+    if((velocity <= _maxVelocity || ay > 0) &&
+        (velocity >= 10 || ay <0)){
       velocity -= (_userInput.ay / 10);
     }
 
-    else if(velocity > _maxVelocity){
-      velocity --;
-    }
-    else if(velocity < 10){
-      velocity ++;
-    }
+    // else if(velocity > _maxVelocity){
+    //   velocity --;
+    // }
+    // else if(velocity < 10){
+    //   velocity ++;
+    // }
   }
 
   _moveObj(){

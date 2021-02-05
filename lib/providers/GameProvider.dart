@@ -42,7 +42,6 @@ class GameProvider with ChangeNotifier{
     }
     _game.run = true;
     _game.gameOver = false;
-    _game.isPaused = true;
     notifyListeners();
   }
 
@@ -63,7 +62,7 @@ class GameProvider with ChangeNotifier{
   }
 
   Timer _createTimer(){
-    return Timer.periodic (Duration(milliseconds: 25), (Timer t) {
+    return Timer.periodic (Duration(milliseconds: 50), (Timer t) {
       setGameState();
       notifyListeners();
     });
