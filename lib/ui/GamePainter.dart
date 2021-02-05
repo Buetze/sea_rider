@@ -1,11 +1,6 @@
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:sea_rider/logic/Player.dart';
 import 'package:sea_rider/models/Collectable.dart';
-import 'dart:ui' as ui;
-
 import 'package:sea_rider/models/Coord.dart';
 import 'package:sea_rider/models/Obstacle.dart';
 
@@ -23,7 +18,6 @@ class GamePainter extends CustomPainter{
   void paint(Canvas canvas, Size size) {
 
     Player player = _gameProvider.game.player;
-    Obstacle obstacle = _gameProvider.game.obstacle;
     List<Obstacle> obstacles = _gameProvider.game.obstacles;
     List<Collectable> collectables = _gameProvider.game.collectables;
 

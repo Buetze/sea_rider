@@ -1,11 +1,7 @@
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sea_rider/providers/GameProvider.dart';
 import 'package:sea_rider/ui/GamePainter.dart';
-import 'package:sensors/sensors.dart';
 
 class GameField extends StatefulWidget {
   @override
